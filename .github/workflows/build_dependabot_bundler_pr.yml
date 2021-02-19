@@ -9,7 +9,6 @@ on:
 
 jobs:
   build:
-    name: Build Gemfile_next.lock and license file changes
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
