@@ -40,7 +40,7 @@ jobs:
         run: |
           unzip dependabot-pr.zip
           echo "BRANCH_REF=$(cat './BRANCH_REF')" >> $GITHUB_ENV
-          echo "BRANCH_NAME=$(echo "$BRANCH_REF" | sed "s/refs\/heads\///") >> $GITHUB_ENV
+          echo "BRANCH_NAME=$(echo '$BRANCH_REF' | sed 's/refs\/heads\///')" >> $GITHUB_ENV
       - name: Configure git
         run: ls -la .
       - name: Configure git
