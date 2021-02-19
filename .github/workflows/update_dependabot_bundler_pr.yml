@@ -59,7 +59,7 @@ jobs:
       - name: Push changes back to branch
         run: |
           echo $BRANCH_REF
-          if [[ "$BRANCH_REF" =~ \Arefs/heads/main* ]]; then
+          if [[ "$BRANCH_REF" =~ ^refs/heads/mai* ]]; then
             git push origin $BRANCH_REF
           else
             echo "Branch ref doesn't look like a dependabot/bundler branch: $BRANCH_REF"
