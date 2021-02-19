@@ -1,0 +1,65 @@
+name: Update Dependabot Bundler PR
+
+# read-write repo token
+# access to secrets
+on:
+  workflow_run:
+    workflows: ["Build Dependabot Bundler PR"]
+    types:
+      - completed
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    if: >
+      ${{ github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: 'Download artifact'
+        uses: actions/github-script@v3.1.0
+        with:
+          script: |
+            var artifacts = await github.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: ${{github.event.workflow_run.id }},
+            });
+            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "dependabot-pr"
+            })[0];
+            var download = await github.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            var fs = require('fs');
+            fs.writeFileSync('${{github.workspace}}/dependabot-pr.zip', Buffer.from(download.data));
+      - name: Unpack pr changes and set branch ref env
+        run: |
+          unzip dependabot-pr.zip
+          yes | cp -r dependabot-pr/* .
+          echo "BRANCH_REF=$(cat './BRANCH_REF')" >> $GITHUB_ENV
+          rm ./BRANCH_REF'
+      - name: Configure git
+        run: |
+          git config --local user.email "no-reply@github.com"
+          git config --local user.name "Dependabot[bot]"
+          git checkout $BRANCH_REF
+      - name: Commit Gemfile_next.lock and licenses
+        run: |
+          git add Gemfile_next.lock vendor/licenses/bundler
+          lockfile_changed=$(git status | grep 'Gemfile_next.lock\|vendor/licenses/bundler/')
+          if [ -z $lockfile_changed ]; then
+            echo "Gemfile_next.lock and licenses were not changed"
+          else
+            git commit -m "[dependabot skip] Update Gemfile_next.lock and licenses"
+          fi
+      - name: Push changes back to branch
+        run: |
+          if [[ "$BRANCH_REF" =~ \Adependabot/bundler/* ]]; then
+            git push origin $BRANCH_REF
+          else
+            echo "Branch ref doesn't look like a dependabot/bundler branch: $BRANCH_REF"
+            exit 1
+          fi
