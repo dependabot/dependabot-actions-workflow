@@ -8,7 +8,7 @@ on:
       - "**"
 
 jobs:
-  ci-image:
+  build:
     name: Build Gemfile_next.lock and license file changes
     runs-on: ubuntu-latest
     steps:
