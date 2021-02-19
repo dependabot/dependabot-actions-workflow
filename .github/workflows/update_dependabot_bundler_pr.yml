@@ -48,15 +48,16 @@ jobs:
           git config --local user.name "Dependabot[bot]"
       - name: Commit Gemfile_next.lock and licenses
         run: |
-          git add Gemfile_next.lock vendor/licenses/bundler
-          lockfile_changed=$(git status | grep 'Gemfile_next.lock\|vendor/licenses/bundler/')
+          lockfile_changed=$(git status | grep 'Gemfile.lock')
           if [ -z $lockfile_changed ]; then
             echo "Gemfile_next.lock and licenses were not changed"
           else
+            git add Gemfile.lock
             git commit -m "[dependabot skip] Update Gemfile_next.lock and licenses"
           fi
       - name: Push changes back to branch
         run: |
+          echo $BRANCH_REF
           if [[ "$BRANCH_REF" =~ \Arefs/heads/dependabot/bundler/* ]]; then
             git push origin $BRANCH_REF
           else
