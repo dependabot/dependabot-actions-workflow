@@ -26,6 +26,7 @@ jobs:
           echo ${{ github.ref }} > ./dependabot-pr/BRANCH_REF
       - name: Copy changed Gemfile_next.lock and licenses
         run: |
+          git status --porcelain v1 .
           git status --porcelain v1 . | grep 'Gemfile.lock\|vendor/licenses/bundler/' | awk {'print $2'} | xargs -I {} cp --parents {} ./dependabot-pr
       - uses: actions/upload-artifact@v2
         with:
