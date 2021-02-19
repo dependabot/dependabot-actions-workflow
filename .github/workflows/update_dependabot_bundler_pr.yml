@@ -35,15 +35,19 @@ jobs:
             });
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/dependabot-pr.zip', Buffer.from(download.data));
-      - name: Configure git
-        run: |
-          git config --local user.email "no-reply@github.com"
-          git config --local user.name "Dependabot[bot]"
-          git checkout $BRANCH_REF
       - name: Unpack pr changes and set branch ref env
         run: |
           unzip dependabot-pr.zip
           echo "BRANCH_REF=$(cat './BRANCH_REF')" >> $GITHUB_ENV
+      - uses: actions/checkout@v2
+        with:
+          ref: $BRANCH_REF
+      - name: Configure git
+        run: ls -la .
+      - name: Configure git
+        run: |
+          git config --local user.email "no-reply@github.com"
+          git config --local user.name "Dependabot[bot]"
       - name: Commit Gemfile_next.lock and licenses
         run: |
           git add Gemfile_next.lock vendor/licenses/bundler
