@@ -15,6 +15,7 @@ jobs:
       ${{ github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success' }}
     steps:
+      - uses: actions/checkout@v2
       - name: 'Download artifact'
         uses: actions/github-script@v3.1.0
         with:
@@ -39,9 +40,6 @@ jobs:
         run: |
           unzip dependabot-pr.zip
           echo "BRANCH_REF=$(cat './BRANCH_REF')" >> $GITHUB_ENV
-      - uses: actions/checkout@v2
-        with:
-          ref: $BRANCH_REF
       - name: Configure git
         run: ls -la .
       - name: Configure git
