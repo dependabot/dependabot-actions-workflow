@@ -46,6 +46,7 @@ jobs:
         run: |
           git config --local user.email "no-reply@github.com"
           git config --local user.name "Dependabot[bot]"
+          git checkout $BRANCH_REF
       - name: Commit Gemfile_next.lock and licenses
         run: |
           lockfile_changed=$(git status | grep 'Gemfile.lock')
@@ -58,7 +59,7 @@ jobs:
       - name: Push changes back to branch
         run: |
           echo $BRANCH_REF
-          if [[ "$BRANCH_REF" =~ \Arefs/heads/dependabot/bundler/* ]]; then
+          if [[ "$BRANCH_REF" =~ \Arefs/heads/main* ]]; then
             git push origin $BRANCH_REF
           else
             echo "Branch ref doesn't look like a dependabot/bundler branch: $BRANCH_REF"
