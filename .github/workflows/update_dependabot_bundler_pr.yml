@@ -38,7 +38,7 @@ jobs:
       - name: Unpack pr changes and set branch ref env
         run: |
           unzip dependabot-pr.zip
-          yes | cp -r dependabot-pr/* .
+          ls -la .
           echo "BRANCH_REF=$(cat './BRANCH_REF')" >> $GITHUB_ENV
           rm ./BRANCH_REF'
       - name: Configure git
@@ -57,7 +57,7 @@ jobs:
           fi
       - name: Push changes back to branch
         run: |
-          if [[ "$BRANCH_REF" =~ \Adependabot/bundler/* ]]; then
+          if [[ "$BRANCH_REF" =~ \Arefs/heads/dependabot/bundler/* ]]; then
             git push origin $BRANCH_REF
           else
             echo "Branch ref doesn't look like a dependabot/bundler branch: $BRANCH_REF"
