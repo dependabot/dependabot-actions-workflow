@@ -13,42 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-          ref: ${{ github.event.pull_request.head.ref }}
       - name: Set up Ruby
         uses: ruby/setup-ruby@fdcfbcf14ec9672f6f615cb9589a1bc5dd69d262
         with:
           ruby-version: 2.7
-      - name: Install libsasl2-dev
-        run: sudo apt-get install libsasl2-dev
-      - name: Install custom bundler
-        run: |
-          cd vendor/bundler
-          gem build bundler.gemspec
-          gem install --no-document --force --default bundler-*.gem
-          gem install --no-document --force bundler-*.gem
-          bundle config --global jobs 8
       - name: Bundle
         run: |
-          commit_message=$(git show -s --format=%B ${{ github.event.pull_request.head.sha }} | head -1)
-          dependency_name=$(sed -nE 's/Bump (.*) from.*/\1/p' <(echo $commit_message))
-          if [ -z "$dependency_name" ]; then
-            echo "no dependency name found"
-          else
-            RAILS_NEXT=1 ruby -I "vendor/bundler/lib" "vendor/bundler/exe/bundle" update $dependency_name
-          fi
-      - name: Update licenses
-        run: |
-          ruby -I "vendor/bundler/lib" "vendor/bundler/exe/bundle" install
-          ruby -I "vendor/bundler/lib" "vendor/bundler/exe/bundle" exec licensed cache -c vendor/licenses/config.yml --sources bundler
+          bundle install
       - name: Save branch ref
         run: |
           mkdir -p ./dependabot-pr
-          echo ${{ github.event.pull_request.head.ref }} > ./dependabot-pr/BRANCH_REF
+          echo ${{ github.ref }} > ./dependabot-pr/BRANCH_REF
       - name: Copy changed Gemfile_next.lock and licenses
         run: |
-          git status --porcelain v1 . | grep 'Gemfile_next.lock\|vendor/licenses/bundler/' | awk {'print $2'} | xargs -I {} cp --parents {} ./dependabot-pr
+          git status --porcelain v1 . | grep 'Gemfile.lock\|vendor/licenses/bundler/' | awk {'print $2'} | xargs -I {} cp --parents {} ./dependabot-pr
       - uses: actions/upload-artifact@v2
         with:
           name: dependabot-pr
