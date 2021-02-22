@@ -49,11 +49,15 @@ jobs:
           git checkout $BRANCH_NAME
       - name: Commit Gemfile_next.lock and licenses
         run: |
+          git status          
           lockfile_changed=$(git status | grep 'Gemfile.lock\|vendor/licenses/bundler/')
+          echo $lockfile_changed
           if [ -z $lockfile_changed ]; then
             echo "Gemfile.lock and licenses were not changed"
           else
+            echo "git add"
             git add Gemfile.lock vendor/licenses/bundler
+            echo "git commit"
             git commit -m "[dependabot skip] Update Gemfile_next.lock and licenses"
           fi
       - name: Push changes back to branch
