@@ -1,19 +1,13 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    faraday (1.3.0)
-      faraday-net_http (~> 1.0)
-      multipart-post (>= 1.2, < 3)
-      ruby2_keywords
-    faraday-net_http (1.0.1)
-    multipart-post (2.1.1)
-    ruby2_keywords (0.0.4)
+    excon (0.79.0)
 
 PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  faraday
+  excon
 
 BUNDLED WITH
    2.2.11
