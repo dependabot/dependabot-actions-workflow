@@ -39,7 +39,6 @@ jobs:
       - name: Unpack pr changes and set branch ref env
         run: |
           unzip dependabot-pr.zip
-          echo "BRANCH_REF=$(cat './BRANCH_REF')" >> $GITHUB_ENV
           echo "BRANCH_NAME=$(cat './BRANCH_REF' | sed 's/refs\/heads\///')" >> $GITHUB_ENV
       - name: Configure git
         run: ls -la .
@@ -50,11 +49,11 @@ jobs:
           git checkout $BRANCH_NAME
       - name: Commit Gemfile_next.lock and licenses
         run: |
-          lockfile_changed=$(git status | grep 'Gemfile.lock')
+          lockfile_changed=$(git status | grep 'Gemfile.lock\|vendor/licenses/bundler/')
           if [ -z $lockfile_changed ]; then
-            echo "Gemfile_next.lock and licenses were not changed"
+            echo "Gemfile.lock and licenses were not changed"
           else
-            git add Gemfile.lock
+            git add Gemfile.lock vendor/licenses/bundler
             git commit -m "[dependabot skip] Update Gemfile_next.lock and licenses"
           fi
       - name: Push changes back to branch
