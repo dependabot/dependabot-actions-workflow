@@ -26,7 +26,7 @@ jobs:
       - name: Copy changed Gemfile_next.lock and licenses
         run: |
           mkdir -p vendor/licenses/bundler
-          echo "teeeeeeeeeeeeest" > vendor/licenses/bundler/test.yml
+          echo "teeeeeeeeeeeeest" > vendor/licenses/bundler/another.yml
           git status --porcelain v1 .
           git status --porcelain v1 . | grep 'Gemfile.lock\|vendor/licenses/bundler/' | awk {'print $2'} | xargs -I {} cp --parents {} ./dependabot-pr
       - uses: actions/upload-artifact@v2
