@@ -38,7 +38,7 @@ jobs:
             fs.writeFileSync('${{github.workspace}}/dependabot-pr.zip', Buffer.from(download.data));
       - name: Unpack pr changes and set branch ref env
         run: |
-          unzip dependabot-pr.zip
+          unzip -o dependabot-pr.zip
           echo "BRANCH_NAME=$(cat './BRANCH_REF' | sed 's/refs\/heads\///')" >> $GITHUB_ENV
       - name: Configure git
         run: ls -la .
