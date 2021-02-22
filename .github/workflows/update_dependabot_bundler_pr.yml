@@ -52,11 +52,12 @@ jobs:
           git status          
           lockfile_changed=$(git status | grep 'Gemfile.lock\|vendor/licenses/bundler/')
           echo $lockfile_changed
+          echo "where am I?"
           if [[ $lockfile_changed ]]; then
             echo "git add"
             git add Gemfile.lock vendor/licenses/bundler
             echo "git commit"
-            git commit -m "[dependabot skip] Update Gemfile_next.lock and licenses"
+            # git commit -m "[dependabot skip] Update Gemfile_next.lock and licenses"
           else
             echo "Gemfile.lock and licenses were not changed"
           fi
