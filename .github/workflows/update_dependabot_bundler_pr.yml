@@ -46,7 +46,7 @@ jobs:
         run: |
           git config --local user.email "support@github.com"
           git config --local user.name "dependabot[bot]"
-          git checkout $BRANCH_NAME
+          git checkout --progress --force -B $BRANCH_NAME refs/remotes/origin/$BRANCH_NAME
       - name: Commit Gemfile_next.lock and licenses
         run: |
           if [[ $(git status | grep 'Gemfile.lock\|vendor/licenses/bundler/') ]]; then
