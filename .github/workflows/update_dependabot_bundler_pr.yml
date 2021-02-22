@@ -49,10 +49,7 @@ jobs:
           git checkout $BRANCH_NAME
       - name: Commit Gemfile_next.lock and licenses
         run: |
-          git status          
           lockfile_changed=$(git status | grep 'Gemfile.lock\|vendor/licenses/bundler/')
-          echo $lockfile_changed
-          echo "where am I?"
           if [[ $lockfile_changed ]]; then
             echo "git add"
             git add Gemfile.lock vendor/licenses/bundler
