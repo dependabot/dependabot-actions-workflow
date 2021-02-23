@@ -19,7 +19,6 @@ jobs:
       ${{ github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - uses: actions/checkout@v2
       - name: Download pr changes
         uses: actions/github-script@v3.1.0
         with:
@@ -44,12 +43,14 @@ jobs:
         run: unzip -o dependabot-pr.zip
       - name: Set branch name
         run: echo "BRANCH_NAME=$(cat './BRANCH_REF' | sed 's/refs\/heads\///')" >> $GITHUB_ENV
+      - name: Checkout the branch from 'Build Dependabot Bundler PR'
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ env.BRANCH_NAME }}
       - name: Configure git
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-      - name: Checkout the branch from 'Build Dependabot Bundler PR'
-        run: git checkout $BRANCH_NAME
       - run: git status
       # NOTE: Prefixing commit messages with `[dependabit skip]` allows
       # dependabot to rebase/update the pull request, force-pushing over any
