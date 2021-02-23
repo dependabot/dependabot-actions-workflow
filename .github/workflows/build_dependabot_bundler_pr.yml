@@ -24,21 +24,16 @@ jobs:
         uses: ruby/setup-ruby@fdcfbcf14ec9672f6f615cb9589a1bc5dd69d262
         with:
           ruby-version: 2.7
-      - name: Bundle
-        run: |
-          bundle install
+      - run: bundle install
       - run: mkdir ./dependabot-pr
-      - name: Set up cache for dependabot pull request changes
-        uses: actions/cache@v2
-        with:
-          path: ./dependabot-pr
-          key: dependabot-pr-${{ github.run_id }}
       - name: Save branch ref
-        run: |
-          echo ${{ github.ref }} > ./dependabot-pr/BRANCH_REF
+        run: echo ${{ github.ref }} > ./dependabot-pr/BRANCH_REF
       - run: licensed cache
       - run: git add .licenses/ || true
       - run: git status
       - name: Copy changed licenses
-        run: |
-          git status --porcelain v1 . | grep '.licenses/' | awk {'print $2'} | xargs -I {} cp --parents {} ./dependabot-pr
+        run: git status --porcelain v1 . | grep '.licenses/' | awk {'print $2'} | xargs -I {} cp --parents {} ./dependabot-pr
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dependabot-pr
+          path: dependabot-pr/

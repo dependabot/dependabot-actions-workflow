@@ -20,13 +20,28 @@ jobs:
       github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v2
-      - name: Restore cached dependabot pull request changes
-        uses: actions/cache@v2
+      - name: Download pr changes
+        uses: actions/github-script@v3.1.0
         with:
-          path: ./dependabot-pr
-          key: dependabot-pr-${{github.event.workflow_run.id }}
-      - name: Unpack pull request changes
-        run: yes | cp -af ./dependabot-pr/. .
+          script: |
+            var artifacts = await github.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: ${{github.event.workflow_run.id }},
+            });
+            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "dependabot-pr"
+            })[0];
+            var download = await github.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            var fs = require('fs');
+            fs.writeFileSync('${{github.workspace}}/dependabot-pr.zip', Buffer.from(download.data));
+      - name: Unpack pr changes
+        run: unzip -o dependabot-pr.zip
       - name: Set branch name
         run: echo "BRANCH_NAME=$(cat './BRANCH_REF' | sed 's/refs\/heads\///')" >> $GITHUB_ENV
       - name: Configure git
@@ -52,5 +67,3 @@ jobs:
             echo "Branch ref doesn't look like a dependabot/bundler branch: $BRANCH_REF"
             exit 1
           fi
-
-
