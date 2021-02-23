@@ -33,6 +33,9 @@ jobs:
       - run: git status
       - name: Copy changed licenses
         run: git status --porcelain v1 . | grep '.licenses/' | awk {'print $2'} | xargs -I {} cp --parents {} ./dependabot-pr
+      # NOTE: Use actions/upload-artifact instead of actions/cache as the
+      # workflow triggered on the default branch doesn't have access to caches
+      # created on feature branches
       - uses: actions/upload-artifact@v2
         with:
           name: dependabot-pr
