@@ -11,8 +11,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Dump run_id
-        run: echo ${{ github.run_id }}
       - uses: actions/checkout@v2
       - run: mkdir ./dependabot-pr
       - name: Cache dependabot pull request changes
@@ -34,4 +32,4 @@ jobs:
       - run: git status
       - name: Copy changed licenses
         run: |
-          git status --porcelain v1 . | grep '.licenses/bundler/' | awk {'print $2'} | xargs -I {} cp --parents {} ./dependabot-pr
+          git status --porcelain v1 . | grep '.licenses/' | awk {'print $2'} | xargs -I {} cp --parents {} ./dependabot-pr

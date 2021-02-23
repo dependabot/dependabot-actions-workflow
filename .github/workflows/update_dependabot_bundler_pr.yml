@@ -55,8 +55,8 @@ jobs:
       - run: git status
       - name: Commit Gemfile_next.lock and licenses
         run: |
-          if [[ $(git status | grep '.licenses/bundler/') ]]; then
-            git add .licenses/bundler
+          if [[ $(git status | grep '.licenses/') ]]; then
+            git add .licenses/
             git commit -m "[dependabot skip] Update licenses"
           else
             echo "Licenses were not changed"
