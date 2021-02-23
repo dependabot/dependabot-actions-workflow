@@ -46,6 +46,7 @@ jobs:
       - name: Checkout the branch from 'Build Dependabot Bundler PR'
         uses: actions/checkout@v2
         with:
+          clean: false
           ref: ${{ env.BRANCH_NAME }}
       - name: Configure git
         run: |
