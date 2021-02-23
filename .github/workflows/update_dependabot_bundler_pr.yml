@@ -16,54 +16,36 @@ jobs:
       github.event.workflow_run.conclusion == 'success' }}
     steps:
       - run: echo ${{github.event.workflow_run.id }}
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJSON(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJSON(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJSON(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
       - uses: actions/checkout@v2
-      - name: 'Download artifact'
-        uses: actions/github-script@v3.1.0
+      - name: Cache dependabot pull request changes
+        uses: actions/cache@v2
         with:
-          script: |
-            var artifacts = await github.actions.listWorkflowRunArtifacts({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               run_id: ${{github.event.workflow_run.id }},
-            });
-            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == "dependabot-pr"
-            })[0];
-            var download = await github.actions.downloadArtifact({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               artifact_id: matchArtifact.id,
-               archive_format: 'zip',
-            });
-            var fs = require('fs');
-            fs.writeFileSync('${{github.workspace}}/dependabot-pr.zip', Buffer.from(download.data));
+          path: ./dependabot-pr
+          key: dependabot-pr-${{github.event.workflow_run.id }}
+      # - name: 'Download artifact'
+      #   uses: actions/github-script@v3.1.0
+      #   with:
+      #     script: |
+      #       var artifacts = await github.actions.listWorkflowRunArtifacts({
+      #          owner: context.repo.owner,
+      #          repo: context.repo.repo,
+      #          run_id: ${{github.event.workflow_run.id }},
+      #       });
+      #       var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+      #         return artifact.name == "dependabot-pr"
+      #       })[0];
+      #       var download = await github.actions.downloadArtifact({
+      #          owner: context.repo.owner,
+      #          repo: context.repo.repo,
+      #          artifact_id: matchArtifact.id,
+      #          archive_format: 'zip',
+      #       });
+      #       var fs = require('fs');
+      #       fs.writeFileSync('${{github.workspace}}/dependabot-pr.zip', Buffer.from(download.data));
+      - run: ls -la ./dependabot-pr
       - name: Unpack pr changes and set branch ref env
         run: |
-          unzip -o dependabot-pr.zip
+          yes | cp -af ./dependabot-pr/. .
           echo "BRANCH_NAME=$(cat './BRANCH_REF' | sed 's/refs\/heads\///')" >> $GITHUB_ENV
       - name: Configure git
         run: |
