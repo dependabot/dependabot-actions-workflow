@@ -41,7 +41,7 @@ jobs:
             fs.writeFileSync('/home/runner/work/dependabot-pr.zip', Buffer.from(download.data));
       - run: mkdir -p /home/runner/work/dependabot-pr
       - name: Unpack pr changes
-        run: unzip -o /home/runner/work/dependabot-pr.zip -d /home/runner/work/
+        run: unzip -o /home/runner/work/dependabot-pr.zip -d /home/runner/work/dependabot-pr
       - run: ls -la ${{github.workspace}}
       - run: ls -la /home/runner/work/dependabot-pr
       - name: Set branch name
