@@ -49,7 +49,7 @@ jobs:
           git config --local user.email "email"
           git config --local user.name "actions[bot]"
       - name: Checkout the branch from 'Build Dependabot Bundler PR'
-        run: git checkout --progress --force -B $BRANCH_NAME
+        run: git checkout --progress --force -B $BRANCH_NAME origin/$BRANCH_NAME
       - run: git status
       # NOTE: Prefixing commit messages with `[dependabit skip]` allows
       # dependabot to rebase/update the pull request, force-pushing over any
