@@ -40,17 +40,18 @@ jobs:
             var fs = require('fs');
             fs.writeFileSync('/home/runner/work/dependabot-pr.zip', Buffer.from(download.data));
       - run: mkdir -p /home/runner/work/dependabot-pr
-      - name: Unpack pr changes
+      # NOTE: actions/checkout will delete the contents of the current workspace
+      # so we unpack the changes outside the current workspace
+      - name: Unpack dependabot pr changes
         run: unzip -o /home/runner/work/dependabot-pr.zip -d /home/runner/work/dependabot-pr
-      - run: ls -la ${{github.workspace}}
-      - run: ls -la /home/runner/work/dependabot-pr
-      - name: Set branch name
+      - name: Set BRANCH_NAME env var
         run: echo "BRANCH_NAME=$(cat '/home/runner/work/dependabot-pr/BRANCH_REF' | sed 's/refs\/heads\///')" >> $GITHUB_ENV
-      - name: Checkout the branch from 'Build Dependabot Bundler PR'
+      - name: Checkout the branch that triggered 'Build Dependabot Bundler PR'
         uses: actions/checkout@v2
         with:
           ref: ${{ env.BRANCH_NAME }}
-      - run: yes | cp -af /home/runner/work/dependabot-pr/. .
+      - name: Copy dependabot pr changes to current workspace
+        run: yes | cp -af /home/runner/work/dependabot-pr/. .
       - run: git status
       - name: Configure git
         run: |
