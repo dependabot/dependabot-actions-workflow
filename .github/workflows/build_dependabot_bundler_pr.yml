@@ -1,23 +1,25 @@
-name: Build Dependabot Bundler PR
+# This workflow runs with a READ-ONLY GITHUB_TOKEN
+# https://github.blog/changelog/2021-02-19-github-actions-workflows-triggered-by-dependabot-prs-will-run-with-read-only-permissions/
 
-# read-only repo token
-# no access to secrets
+# This action will run a `bundle install` without write access to the repository
+# as this can execute potentially unsafe third-party ruby code when installing
+# git dependencies.
+
+# The completion of this workflow triggers the `Update Dependabot Bundler PR`
+# workflow which has a read-write GITHUB_TOKEN, extracting the changes to
+# license files and pushing these to back to the Dependabot PR branch.
+
+name: Build Dependabot Bundler PR
 on:
   push:
     branches:
-      - "**"
+      - "dependabot/bundler**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: mkdir ./dependabot-pr
-      - name: Cache dependabot pull request changes
-        uses: actions/cache@v2
-        with:
-          path: ./dependabot-pr
-          key: dependabot-pr-${{ github.run_id }}
       - name: Set up Ruby
         uses: ruby/setup-ruby@fdcfbcf14ec9672f6f615cb9589a1bc5dd69d262
         with:
@@ -25,6 +27,12 @@ jobs:
       - name: Bundle
         run: |
           bundle install
+      - run: mkdir ./dependabot-pr
+      - name: Set up cache for dependabot pull request changes
+        uses: actions/cache@v2
+        with:
+          path: ./dependabot-pr
+          key: dependabot-pr-${{ github.run_id }}
       - name: Save branch ref
         run: |
           echo ${{ github.ref }} > ./dependabot-pr/BRANCH_REF

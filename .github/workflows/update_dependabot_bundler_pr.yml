@@ -1,7 +1,11 @@
-name: Update Dependabot Bundler PR
+# This workflow runs after `Build Dependabot Bundler PR` completes with a
+# READ-WRITE GITHUB_TOKEN from the default branch and pushes updated license
+# file changes back to the Dependabot PR branch.
 
-# read-write repo token
-# access to secrets
+# We run this as a separate workflow to isolate potentially unsafe `bundle
+# install`s.
+
+name: Update Dependabot Bundler PR
 on:
   workflow_run:
     workflows: ["Build Dependabot Bundler PR"]
@@ -16,7 +20,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v2
-      - name: Cache dependabot pull request changes
+      - name: Restore cached dependabot pull request changes
         uses: actions/cache@v2
         with:
           path: ./dependabot-pr
@@ -32,7 +36,7 @@ jobs:
       - name: Checkout the branch from 'Build Dependabot Bundler PR'
         run: git checkout --progress --force -B $BRANCH_NAME refs/remotes/origin/$BRANCH_NAME
       - run: git status
-      - name: Commit Gemfile_next.lock and licenses
+      - name: Commit license changes
         run: |
           if [[ $(git status | grep '.licenses/') ]]; then
             git add .licenses/
@@ -40,11 +44,13 @@ jobs:
           else
             echo "Licenses were not changed"
           fi
-      - name: Push changes back to branch
+      - name: Push changes back to dependabot/bundler branch
         run: |
-          if [[ "$BRANCH_NAME" =~ ^mai* ]]; then
+          if [[ "$BRANCH_NAME" =~ ^dependabot/bundler* ]]; then
             git push origin $BRANCH_NAME
           else
             echo "Branch ref doesn't look like a dependabot/bundler branch: $BRANCH_REF"
             exit 1
           fi
+
+
