@@ -2,4 +2,5 @@
 
 source "https://rubygems.org"
 
-gem 'excon'
+gem "excon", "0.75.0"
+gem "licensed", "2.14.0"

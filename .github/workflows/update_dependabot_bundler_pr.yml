@@ -15,6 +15,31 @@ jobs:
       ${{ github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success' }}
     steps:
+      - run: echo ${{github.event.workflow_run.id }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
       - uses: actions/checkout@v2
       - name: 'Download artifact'
         uses: actions/github-script@v3.1.0
@@ -41,24 +66,21 @@ jobs:
           unzip -o dependabot-pr.zip
           echo "BRANCH_NAME=$(cat './BRANCH_REF' | sed 's/refs\/heads\///')" >> $GITHUB_ENV
       - name: Configure git
-        run: ls -la .
-      - name: Configure git
         run: |
-          git config --local user.email "support@github.com"
-          git config --local user.name "dependabot[bot]"
+          git config --local user.email "email"
+          git config --local user.name "actions[bot]"
           git checkout --progress --force -B $BRANCH_NAME refs/remotes/origin/$BRANCH_NAME
       - run: git status
       - name: Commit Gemfile_next.lock and licenses
         run: |
-          if [[ $(git status | grep 'Gemfile.lock\|vendor/licenses/bundler/') ]]; then
-            git add Gemfile.lock vendor/licenses/bundler
-            git commit -m "[dependabot skip] Update Gemfile_next.lock and licenses"
+          if [[ $(git status | grep '.licenses/bundler/') ]]; then
+            git add .licenses/bundler
+            git commit -m "[dependabot skip] Update licenses"
           else
-            echo "Gemfile.lock and licenses were not changed"
+            echo "Licenses were not changed"
           fi
       - name: Push changes back to branch
         run: |
-          echo $BRANCH_NAME
           if [[ "$BRANCH_NAME" =~ ^mai* ]]; then
             git push origin $BRANCH_NAME
           else

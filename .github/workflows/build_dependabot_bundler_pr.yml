@@ -11,6 +11,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
       - uses: actions/checkout@v2
       - name: Set up Ruby
         uses: ruby/setup-ruby@fdcfbcf14ec9672f6f615cb9589a1bc5dd69d262
@@ -23,12 +47,11 @@ jobs:
         run: |
           mkdir -p ./dependabot-pr
           echo ${{ github.ref }} > ./dependabot-pr/BRANCH_REF
-      - name: Copy changed Gemfile_next.lock and licenses
+      - run: licensed cache
+      - run: git status
+      - name: Copy changed licenses
         run: |
-          mkdir -p vendor/licenses/bundler
-          echo "teeeeeeeeeeeeest" > vendor/licenses/bundler/another.yml
-          git status --porcelain v1 .
-          git status --porcelain v1 . | grep 'Gemfile.lock\|vendor/licenses/bundler/' | awk {'print $2'} | xargs -I {} cp --parents {} ./dependabot-pr
+          git status --porcelain v1 . | grep '.licenses/bundler/' | awk {'print $2'} | xargs -I {} cp --parents {} ./dependabot-pr
       - uses: actions/upload-artifact@v2
         with:
           name: dependabot-pr
