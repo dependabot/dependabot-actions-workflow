@@ -29,6 +29,7 @@ jobs:
         run: |
           echo ${{ github.ref }} > ./dependabot-pr/BRANCH_REF
       - run: licensed cache
+      - run: git add .licenses/ || true
       - run: git status
       - name: Copy changed licenses
         run: |
