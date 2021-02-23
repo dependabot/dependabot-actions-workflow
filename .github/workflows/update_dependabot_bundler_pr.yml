@@ -38,21 +38,24 @@ jobs:
                archive_format: 'zip',
             });
             var fs = require('fs');
-            fs.writeFileSync('${{github.workspace}}/dependabot-pr.zip', Buffer.from(download.data));
+            fs.writeFileSync('/home/runner/work/dependabot-pr.zip', Buffer.from(download.data));
+      - run: mkdir -p /home/runner/work/dependabot-pr
       - name: Unpack pr changes
-        run: unzip -o dependabot-pr.zip
+        run: unzip -o /home/runner/work/dependabot-pr.zip -d /home/runner/work/
+      - run: ls -la ${{github.workspace}}
+      - run: ls -la /home/runner/work/dependabot-pr
       - name: Set branch name
-        run: echo "BRANCH_NAME=$(cat './BRANCH_REF' | sed 's/refs\/heads\///')" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=$(cat '/home/runner/work/dependabot-pr/BRANCH_REF' | sed 's/refs\/heads\///')" >> $GITHUB_ENV
       - name: Checkout the branch from 'Build Dependabot Bundler PR'
         uses: actions/checkout@v2
         with:
-          clean: false
           ref: ${{ env.BRANCH_NAME }}
+      - run: yes | cp -af /home/runner/work/dependabot-pr/. .
+      - run: git status
       - name: Configure git
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-      - run: git status
       # NOTE: Prefixing commit messages with `[dependabit skip]` allows
       # dependabot to rebase/update the pull request, force-pushing over any
       # changes
