@@ -52,6 +52,10 @@ jobs:
           ref: ${{ env.BRANCH_NAME }}
       - name: Copy dependabot pr changes to current workspace
         run: yes | cp -af /home/runner/work/dependabot-pr/changes.patch .
+      - name: Configure git
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
       - name: Commit license changes
         run: git am changes.patch
       - name: Push changes back to dependabot/bundler branch
