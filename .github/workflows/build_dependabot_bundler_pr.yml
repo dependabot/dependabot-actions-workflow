@@ -34,6 +34,9 @@ jobs:
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+      # NOTE: Prefixing commit messages with `[dependabit skip]` allows
+      # dependabot to rebase/update the pull request, force-pushing over any
+      # changes
       - run: git commit -m "[dependabot skip] Update licenses"
       - name: Copy changed licenses
         run: git format-patch -n HEAD^ --binary --stdout > ./dependabot-pr/changes.patch
