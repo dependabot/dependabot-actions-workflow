@@ -27,7 +27,7 @@ jobs:
       - run: bundle install
       - run: mkdir ./dependabot-pr
       - name: Save branch ref
-        run: echo ${{ github.ref }} > ./dependabot-pr/BRANCH_REF
+        run: echo ${{ github.ref }} | sed 's/refs\/heads\///' > ./dependabot-pr/BRANCH_REF
       - run: licensed cache
       - run: git add .licenses/ || true
       - name: Configure git
