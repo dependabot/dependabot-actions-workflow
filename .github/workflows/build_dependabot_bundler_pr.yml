@@ -30,9 +30,9 @@ jobs:
         run: echo ${{ github.ref }} > ./dependabot-pr/BRANCH_REF
       - run: licensed cache
       - run: git add .licenses/ || true
-      - run: git status
+      - run: git commit -m "[dependabot skip] Update licenses"
       - name: Copy changed licenses
-        run: git diff --staged --binary ./dependabot-pr/changes.patch
+        run: git format-patch -n HEAD^ --binary --stdout > ./dependabot-pr/changes.patch
       # NOTE: Use actions/upload-artifact instead of actions/cache as the
       # workflow triggered on the default branch doesn't have access to caches
       # created on feature branches
