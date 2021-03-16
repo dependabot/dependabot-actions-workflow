@@ -51,23 +51,9 @@ jobs:
         with:
           ref: ${{ env.BRANCH_NAME }}
       - name: Copy dependabot pr changes to current workspace
-        run: yes | cp -af /home/runner/work/dependabot-pr/. .
-      - run: git status
-      - name: Configure git
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-      # NOTE: Prefixing commit messages with `[dependabit skip]` allows
-      # dependabot to rebase/update the pull request, force-pushing over any
-      # changes
+        run: yes | cp -af /home/runner/work/dependabot-pr/changes.patch .
       - name: Commit license changes
-        run: |
-          if [[ $(git status | grep '.licenses/') ]]; then
-            git add .licenses/
-            git commit -m "[dependabot skip] Update licenses"
-          else
-            echo "Licenses were not changed"
-          fi
+        run: git am changes.patch
       - name: Push changes back to dependabot/bundler branch
         run: |
           if [[ "$BRANCH_NAME" =~ ^dependabot/bundler* ]]; then
