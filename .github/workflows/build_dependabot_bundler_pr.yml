@@ -37,7 +37,7 @@ jobs:
       # NOTE: Prefixing commit messages with `[dependabit skip]` allows
       # dependabot to rebase/update the pull request, force-pushing over any
       # changes
-      - run: git commit -m "[dependabot skip] Update licenses"
+      - run: git commit -m "Update licenses [dependabot skip]"
       - name: Copy changed licenses
         run: git format-patch -n HEAD^ --binary --stdout > ./dependabot-pr/changes.patch
       # NOTE: Use actions/upload-artifact instead of actions/cache as the
