@@ -46,18 +46,22 @@ jobs:
         run: unzip -o /home/runner/work/dependabot-pr.zip -d /home/runner/work/dependabot-pr
       - name: Set BRANCH_NAME env var
         run: printf "%q" "BRANCH_NAME=$(cat '/home/runner/work/dependabot-pr/BRANCH_REF')" >> $GITHUB_ENV
-      - name: Checkout the branch that triggered 'Build Dependabot Bundler PR'
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ env.BRANCH_NAME }}
-      - name: Copy dependabot pr changes to current workspace
-        run: yes | cp -af /home/runner/work/dependabot-pr/changes.patch .
       - name: Configure git
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+      - name: Checkout the branch that triggered 'Build Dependabot Bundler PR'
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ env.BRANCH_NAME }}
       - name: Commit license changes
-        run: git am changes.patch
+        run: |
+          CHANGES_PATH=/home/runner/work/dependabot-pr/changes.patch
+          if [ -f "$CHANGES_PATH" ]; then
+            git am $CHANGES_PATH
+          else
+            echo "No changes where committed"
+          fi
       - name: Push changes back to dependabot/bundler branch
         run: |
           if [[ "$BRANCH_NAME" =~ ^dependabot/bundler* ]]; then
