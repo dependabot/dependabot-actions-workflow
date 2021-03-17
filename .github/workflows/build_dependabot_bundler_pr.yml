@@ -28,18 +28,22 @@ jobs:
       - run: mkdir ./dependabot-pr
       - name: Save branch ref
         run: echo ${{ github.ref }} | sed 's/refs\/heads\///' > ./dependabot-pr/BRANCH_REF
-      - run: licensed cache
-      - run: git add .licenses/ || true
       - name: Configure git
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-      # NOTE: Prefixing commit messages with `[dependabit skip]` allows
-      # dependabot to rebase/update the pull request, force-pushing over any
-      # changes
-      - run: git commit -m "Update licenses [dependabot skip]"
-      - name: Copy changed licenses
-        run: git format-patch -n HEAD^ --binary --stdout > ./dependabot-pr/changes.patch
+      - run: licensed cache
+      # NOTE: Prefixing/appending commit messages with `[dependabit skip]` allows
+      # dependabot to rebase/update the pull request, force-pushing over any changes
+      - name: Commit and copy license changes
+        run: |
+          if [[ $(git status | grep '.licenses/') ]]; then
+            git add .licenses/
+            git commit -m "Update licenses [dependabot skip]"
+            git format-patch -n HEAD^ --binary --stdout > ./dependabot-pr/changes.patch
+          else
+            echo "Licenses were not changed"
+          fi
       # NOTE: Use actions/upload-artifact instead of actions/cache as the
       # workflow triggered on the default branch doesn't have access to caches
       # created on feature branches
