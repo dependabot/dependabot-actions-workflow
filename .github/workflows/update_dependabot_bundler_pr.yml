@@ -46,14 +46,14 @@ jobs:
         run: unzip -o /home/runner/work/dependabot-pr.zip -d /home/runner/work/dependabot-pr
       - name: Set BRANCH_NAME env var
         run: printf "%q" "BRANCH_NAME=$(cat '/home/runner/work/dependabot-pr/BRANCH_REF')" >> $GITHUB_ENV
-      - name: Configure git
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
       - name: Checkout the branch that triggered 'Build Dependabot Bundler PR'
         uses: actions/checkout@v2
         with:
           ref: ${{ env.BRANCH_NAME }}
+      - name: Configure git
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
       - name: Commit license changes
         run: |
           CHANGES_PATH=/home/runner/work/dependabot-pr/changes.patch
