@@ -39,8 +39,8 @@ jobs:
         run: |
           if [[ $(git status | grep '.licenses/') ]]; then
             git add .licenses/
-            git commit -m "Update licenses [dependabot skip]"
-            git format-patch -n HEAD^ --binary --stdout > ./dependabot-pr/changes.patch
+            git commit -m "[dependabot skip] Update licenses"
+            git format-patch -k -n HEAD^ --binary --stdout > ./dependabot-pr/changes.patch
           else
             echo "Licenses were not changed"
           fi
