@@ -58,7 +58,7 @@ jobs:
         run: |
           CHANGES_PATH=/home/runner/work/dependabot-pr/changes.patch
           if [ -f "$CHANGES_PATH" ]; then
-            git am $CHANGES_PATH
+            git am -k $CHANGES_PATH
           else
             echo "No changes where committed"
           fi
