@@ -1,6 +1,6 @@
 ---
 name: licensed
-version: 2.14.0
+version: 2.14.4
 type: bundler
 summary: Extract and validate the licenses of dependencies.
 homepage: https://github.com/github/licensed
