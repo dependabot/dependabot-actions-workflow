@@ -45,7 +45,7 @@ jobs:
       - name: Unpack dependabot pr changes
         run: unzip -o /home/runner/work/dependabot-pr.zip -d /home/runner/work/dependabot-pr
       - name: Set BRANCH_NAME env var
-        run: printf "%q" "BRANCH_NAME=$(cat '/home/runner/work/dependabot-pr/BRANCH_REF')" >> $GITHUB_ENV
+        run: printf "BRANCH_NAME=\"%q\"" "$(head -1 '/home/runner/work/dependabot-pr/BRANCH_REF')" >> $GITHUB_ENV
       - name: Checkout the branch that triggered 'Build Dependabot Bundler PR'
         uses: actions/checkout@v2
         with:
