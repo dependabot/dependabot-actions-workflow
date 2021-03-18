@@ -44,12 +44,12 @@ jobs:
       # so we unpack the changes outside the current workspace
       - name: Unpack dependabot pr changes
         run: unzip -o /home/runner/work/dependabot-pr.zip -d /home/runner/work/dependabot-pr
-      - name: Set BRANCH_NAME env var
-        run: printf "BRANCH_NAME=%q" "$(head -1 '/home/runner/work/dependabot-pr/BRANCH_REF')" >> $GITHUB_ENV
+      - name: Set BRANCH_REF env var
+        run: printf "BRANCH_REF=%q" "$(head -1 '/home/runner/work/dependabot-pr/BRANCH_REF')" >> $GITHUB_ENV
       - name: Checkout the branch that triggered 'Build Dependabot Bundler PR'
         uses: actions/checkout@v2
         with:
-          ref: ${{ env.BRANCH_NAME }}
+          ref: ${{ env.BRANCH_REF }}
       - name: Configure git
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -64,8 +64,8 @@ jobs:
           fi
       - name: Push changes back to dependabot/bundler branch
         run: |
-          if [[ "$BRANCH_NAME" =~ ^dependabot/bundler* ]]; then
-            git push origin $BRANCH_NAME
+          if [[ "$BRANCH_REF" =~ ^dependabot/bundler* ]]; then
+            git push origin $BRANCH_REF
           else
             echo "Branch ref doesn't look like a dependabot/bundler branch: $BRANCH_REF"
             exit 1
