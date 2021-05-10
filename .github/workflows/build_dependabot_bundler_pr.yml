@@ -33,7 +33,7 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
       - run: licensed cache
-      # NOTE: Prefixing/appending commit messages with `[dependabit skip]` allows
+      # NOTE: Prefixing/appending commit messages with `[dependabot skip]` allows
       # dependabot to rebase/update the pull request, force-pushing over any changes
       - name: Commit and copy license changes
         run: |
