@@ -1,6 +1,6 @@
 ---
 name: nokogiri
-version: 1.11.1
+version: 1.11.4
 type: bundler
 summary: Nokogiri (鋸) makes it easy and painless to work with XML and HTML from Ruby.
 homepage: https://nokogiri.org
@@ -10,7 +10,7 @@ licenses:
   text: |
     The MIT License
 
-    Copyright 2008 -- 2018 by Aaron Patterson, Mike Dalessio, Charles Nutter, Sergio Arbeo, Patrick Mahoney, Yoko Harada, Akinori MUSHA, John Shahid, Lars Kanis
+    Copyright 2008 -- 2021 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney.
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -23,48 +23,48 @@ licenses:
     broken into multiple sections, each of which describes the dependencies of a different
     \"platform release\" of Nokogiri.\n\n<!-- toc -->\n\n- [Default platform release
     (\"ruby\")](#default-platform-release-ruby)\n- [Native LinuxⓇ platform releases
-    (\"x86_64-linux\" and \"arm64-linux\")](#native-linux-platform-releases-x86_64-linux-and-arm64-linux)\n-
+    (\"x86_64-linux\" and \"arm64-linux\")](#native-linux%E2%93%A1-platform-releases-x86_64-linux-and-arm64-linux)\n-
     [Native Darwin (macOSⓇ) platform releases (\"x86_64-darwin\" and \"arm64-darwin\")](#native-darwin-macos%E2%93%A1-platform-releases-x86_64-darwin-and-arm64-darwin)\n-
     [Native WindowsⓇ platform releases (\"x86-mingw32\" and \"x64-mingw32\")](#native-windows%E2%93%A1-platform-releases-x86-mingw32-and-x64-mingw32)\n-
     [JavaⓇ (JRuby) platform release (\"java\")](#java%E2%93%A1-jruby-platform-release-java)\n-
     [Appendix: Dependencies' License Texts](#appendix-dependencies-license-texts)\n
-    \ * [libxml2](#libxml2)\n  * [libxslt](#libxslt)\n  * [zlib](#zlib)\n  * [libiconv](#libiconv)\n
-    \ * [isorelax](#isorelax)\n  * [jing](#jing)\n  * [nekodtd](#nekodtd)\n  * [nekohtml](#nekohtml)\n
-    \ * [xalan](#xalan)\n  * [xerces](#xerces)\n  * [xml-apis](#xml-apis)\n\n<!--
-    tocstop -->\n\nIt's encouraged for anyone consuming this file via license-tracking
-    software to understand which gem file you're downloading and using, so as not
-    to misinterpret the contents of this file and the licenses of the software being
-    distributed.\n\nYou can double-check the dependencies in your gem file by examining
-    the output of `nokogiri -v` after installation, which will emit the complete set
-    of libraries in use (for versions `>= 1.11.0.rc4`).\n\nIn particular, I'm sure
-    somebody's lawyer, somewhere, is going to freak out that the LGPL appears in this
-    file; and so I'd like to take special note that the dependency covered by LGPL,
-    `libiconv`, is only being redistributed in the native Windows and native Darwin
-    platform releases. It's not present in default, JavaⓇ, or native LinuxⓇ releases.\n\n\n##
-    Default platform release (\"ruby\")\n\nThe default platform release distributes
-    the following dependencies in source form:\n\n- [libxml2](#libxml2)\n- [libxslt](#libxslt)\n\nThis
-    distribution can be identified by inspecting the included Gem::Specification,
-    which will have the value \"ruby\" for its \"platform\" attribute.\n\n\n## Native
-    LinuxⓇ platform releases (\"x86_64-linux\" and \"arm64-linux\")\n\nThe native
-    LinuxⓇ platform release distributes the following dependencies in source form:\n\n-
-    [libxml2](#libxml2)\n- [libxslt](#libxslt)\n- [zlib](#zlib)\n\nThis distribution
+    \   * [libxml2](#libxml2)\n    * [libxslt](#libxslt)\n    * [zlib](#zlib)\n    *
+    [libiconv](#libiconv)\n    * [isorelax](#isorelax)\n    * [jing](#jing)\n    *
+    [nekodtd](#nekodtd)\n    * [nekohtml](#nekohtml)\n    * [xalan](#xalan)\n    *
+    [xerces](#xerces)\n    * [xml-apis](#xml-apis)\n\n<!-- tocstop -->\n\nIt's encouraged
+    for anyone consuming this file via license-tracking software to understand which
+    gem file you're downloading and using, so as not to misinterpret the contents
+    of this file and the licenses of the software being distributed.\n\nYou can double-check
+    the dependencies in your gem file by examining the output of `nokogiri -v` after
+    installation, which will emit the complete set of libraries in use (for versions
+    `>= 1.11.0.rc4`).\n\nIn particular, I'm sure somebody's lawyer, somewhere, is
+    going to freak out that the LGPL appears in this file; and so I'd like to take
+    special note that the dependency covered by LGPL, `libiconv`, is only being redistributed
+    in the native Windows and native Darwin platform releases. It's not present in
+    default, JavaⓇ, or native LinuxⓇ releases.\n\n\n## Default platform release (\"ruby\")\n\nThe
+    default platform release distributes the following dependencies in source form:\n\n-
+    [libxml2](#libxml2)\n- [libxslt](#libxslt)\n\nThis distribution can be identified
+    by inspecting the included Gem::Specification, which will have the value \"ruby\"
+    for its \"platform\" attribute.\n\n\n## Native LinuxⓇ platform releases (\"x86_64-linux\"
+    and \"arm64-linux\")\n\nThe native LinuxⓇ platform release distributes the following
+    dependencies in source form:\n\n- [libxml2](#libxml2)\n- [libxslt](#libxslt)\n-
+    [zlib](#zlib)\n\nThis distribution can be identified by inspecting the included
+    Gem::Specification, which will have a value similar to \"x86_64-linux\" or \"x86-linux\"
+    for its \"platform.cpu\" attribute.\n\n\n## Native Darwin (macOSⓇ) platform releases
+    (\"x86_64-darwin\" and \"arm64-darwin\")\n\nThe native Darwin platform release
+    distributes the following dependencies in source form:\n\n- [libxml2](#libxml2)\n-
+    [libxslt](#libxslt)\n- [zlib](#zlib)\n- [libiconv](#libiconv)\n\nThis distribution
     can be identified by inspecting the included Gem::Specification, which will have
-    a value similar to \"x86_64-linux\" or \"x86-linux\" for its \"platform.cpu\"
-    attribute.\n\n\n## Native Darwin (macOSⓇ) platform releases (\"x86_64-darwin\"
-    and \"arm64-darwin\")\n\nThe native Darwin platform release distributes the following
-    dependencies in source form:\n\n- [libxml2](#libxml2)\n- [libxslt](#libxslt)\n-
-    [zlib](#zlib)\n- [libiconv](#libiconv)\n\nThis distribution can be identified
-    by inspecting the included Gem::Specification, which will have a value similar
-    to \"x86_64-darwin\" or \"arm64-darwin\" for its \"platform.cpu\" attribute. Darwin
-    is also known more familiarly as \"OSX\" or \"macOSⓇ\" and is the operating system
-    for many AppleⓇ computers.\n\n\n## Native WindowsⓇ platform releases (\"x86-mingw32\"
-    and \"x64-mingw32\")\n\nThe native WindowsⓇ platform release distributes the following
-    dependencies in source form:\n\n- [libxml2](#libxml2)\n- [libxslt](#libxslt)\n-
-    [zlib](#zlib)\n- [libiconv](#libiconv)\n\nThis distribution can be identified
-    by inspecting the included Gem::Specification, which will have a value similar
-    to \"x64-mingw32\" or \"x86-mingw32\" for its \"platform.cpu\" attribute.\n\n\n##
-    JavaⓇ (JRuby) platform release (\"java\")\n\nThe Java platform release distributes
-    the following dependencies as compiled jar files:\n\n- [isorelax](#isorelax)\n-
+    a value similar to \"x86_64-darwin\" or \"arm64-darwin\" for its \"platform.cpu\"
+    attribute. Darwin is also known more familiarly as \"OSX\" or \"macOSⓇ\" and is
+    the operating system for many AppleⓇ computers.\n\n\n## Native WindowsⓇ platform
+    releases (\"x86-mingw32\" and \"x64-mingw32\")\n\nThe native WindowsⓇ platform
+    release distributes the following dependencies in source form:\n\n- [libxml2](#libxml2)\n-
+    [libxslt](#libxslt)\n- [zlib](#zlib)\n- [libiconv](#libiconv)\n\nThis distribution
+    can be identified by inspecting the included Gem::Specification, which will have
+    a value similar to \"x64-mingw32\" or \"x86-mingw32\" for its \"platform.cpu\"
+    attribute.\n\n\n## JavaⓇ (JRuby) platform release (\"java\")\n\nThe Java platform
+    release distributes the following dependencies as compiled jar files:\n\n- [isorelax](#isorelax)\n-
     [jing](#jing)\n- [nekodtd](#nekodtd)\n- [nekohtml](#nekohtml)\n- [xalan](#xalan)\n-
     [xerces](#xerces)\n- [xml-apis](#xml-apis)\n\nThis distribution can be identified
     by inspecting the included Gem::Specification, which will have the value \"java\"
