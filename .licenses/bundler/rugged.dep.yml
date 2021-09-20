@@ -1,6 +1,6 @@
 ---
 name: rugged
-version: 1.1.0
+version: 1.2.0
 type: bundler
 summary: Rugged is a Ruby binding to the libgit2 linkable library
 homepage: https://github.com/libgit2/rugged
@@ -11,6 +11,7 @@ licenses:
     The MIT License
 
     Copyright (c) 2016 GitHub, Inc
+    Copyright (c) Rugged Contributors
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
