@@ -6,7 +6,7 @@ This repository is running an example Actions workflow to update dependabot pull
 
 ## Workflows
 
-The `Build Dependabot Bundler PR` workflow runs on all pushes to `depenedabot/bundler**` branches with a read-only `GITHUB_TOKEN`. This action gets triggered when Dependabot opens new pull requests or force-pushes updates to existing pull requests.
+The `Build Dependabot Bundler PR` workflow runs on all pushes to `dependabot/bundler**` branches with a read-only `GITHUB_TOKEN`. This action gets triggered when Dependabot opens new pull requests or force-pushes updates to existing pull requests.
 
 This action will run a `bundle install` without write access to the repository as this can execute potentially unsafe third-party ruby code when installing
 git dependencies.
