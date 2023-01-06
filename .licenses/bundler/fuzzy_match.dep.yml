@@ -1,16 +1,15 @@
 ---
-name: ruby-xxHash
-version: 0.4.0.2
+name: fuzzy_match
+version: 2.0.4
 type: bundler
-summary: A pure Ruby implementation of xxhash.
-homepage: https://github.com/justinwsmith/ruby-xxhash
+summary: Find a needle in a haystack using string similarity and (optionally) regexp
+  rules. Replaces loose_tight_dictionary.
+homepage: https://github.com/seamusabshere/fuzzy_match
 license: mit
 licenses:
-- sources: LICENSE.txt
+- sources: LICENSE
   text: |
-    Copyright (c) 2014 Justin W Smith
-
-    MIT License
+    Copyright 2011 Brighter Planet, Inc.
 
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the

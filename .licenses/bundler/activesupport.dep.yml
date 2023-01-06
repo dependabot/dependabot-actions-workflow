@@ -1,16 +1,15 @@
 ---
-name: ruby-xxHash
-version: 0.4.0.2
+name: activesupport
+version: 6.1.7
 type: bundler
-summary: A pure Ruby implementation of xxhash.
-homepage: https://github.com/justinwsmith/ruby-xxhash
+summary: A toolkit of support libraries and Ruby core extensions extracted from the
+  Rails framework.
+homepage: https://rubyonrails.org
 license: mit
 licenses:
-- sources: LICENSE.txt
+- sources: MIT-LICENSE
   text: |
-    Copyright (c) 2014 Justin W Smith
-
-    MIT License
+    Copyright (c) 2005-2022 David Heinemeier Hansson
 
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
@@ -30,4 +29,9 @@ licenses:
     LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
     OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
     WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+- sources: README.rdoc
+  text: |-
+    Active Support is released under the MIT license:
+
+    * https://opensource.org/licenses/MIT
 notices: []
