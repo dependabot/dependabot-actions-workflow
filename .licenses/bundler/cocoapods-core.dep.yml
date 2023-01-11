@@ -1,16 +1,15 @@
 ---
-name: tomlrb
-version: 2.0.3
+name: cocoapods-core
+version: 1.11.3
 type: bundler
-summary: A racc based toml parser
-homepage: https://github.com/fbernier/tomlrb
+summary: The models of CocoaPods
+homepage: https://github.com/CocoaPods/CocoaPods
 license: mit
 licenses:
-- sources: LICENSE.txt
+- sources: LICENSE
   text: |
-    The MIT License (MIT)
-
-    Copyright (c) 2015 Francois Bernier
+    Copyright (c) 2011 - 2012 Eloy Durán <eloy.de.enige@gmail.com>
+    Copyright (c)        2012 Fabio Pelosin <fabiopelosin@gmail.com>
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -29,4 +28,6 @@ licenses:
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
+- sources: README.md
+  text: This gem and CocoaPods are available under the MIT license.
 notices: []

@@ -1,16 +1,14 @@
 ---
-name: ruby-xxHash
-version: 0.4.0.2
+name: zeitwerk
+version: 2.6.6
 type: bundler
-summary: A pure Ruby implementation of xxhash.
-homepage: https://github.com/justinwsmith/ruby-xxhash
+summary: Efficient and thread-safe constant autoloader
+homepage: https://github.com/fxn/zeitwerk
 license: mit
 licenses:
-- sources: LICENSE.txt
+- sources: MIT-LICENSE
   text: |
-    Copyright (c) 2014 Justin W Smith
-
-    MIT License
+    Copyright (c) 2019–ω Xavier Noria
 
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
@@ -30,4 +28,6 @@ licenses:
     LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
     OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
     WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+- sources: README.md
+  text: Released under the MIT License, Copyright (c) 2019–<i>ω</i> Xavier Noria.
 notices: []
