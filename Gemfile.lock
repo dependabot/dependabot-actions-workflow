@@ -4,7 +4,7 @@ GEM
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     dotenv (2.8.1)
-    excon (0.98.0)
+    excon (0.99.0)
     faraday (2.7.4)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
@@ -54,7 +54,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  excon (= 0.98.0)
+  excon (= 0.99.0)
   licensed (= 4.0.4)
 
 BUNDLED WITH
