@@ -18,6 +18,8 @@ jobs:
     if: >
       ${{ github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      contents: write
     steps:
       - name: Download pr changes
         uses: actions/github-script@v3.1.0
