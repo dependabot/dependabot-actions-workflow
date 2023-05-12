@@ -1,8 +1,11 @@
-# Example workflow updating Dependabot pull requests
+# Archived / Deprecated
+Dependabot PR's used to run with [read-only permissions](https://github.blog/changelog/2021-02-19-github-actions-workflows-triggered-by-dependabot-prs-will-run-with-read-only-permissions/), so this example repository demonstrated how to update Dependabot pull requests without direct read-write/secrets access.
 
-Starting **March 1st, 2021** workflows triggered by [Dependabot PRs will run with read-only permissions](https://github.blog/changelog/2021-02-19-github-actions-workflows-triggered-by-dependabot-prs-will-run-with-read-only-permissions/).
+However, GitHub Actions now allow direct writes on Dependabot PR's, so this complicated workaround is no longer necessary. Instead, see the docs for [simpler solutions to updating your Dependabot PR's](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions).
 
-This repository is running an example Actions workflow to update dependabot pull requests without direct read-write/secrets access.
+This repo is kept around in archived form in case folks linked to it from other places.
+
+----
 
 ## Workflows
 
