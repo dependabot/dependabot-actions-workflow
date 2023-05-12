@@ -4,3 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    labels:
+      - dependencies
+      - ruby
+      - Fanout
